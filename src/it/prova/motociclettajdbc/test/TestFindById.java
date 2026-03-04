@@ -17,8 +17,6 @@ public class TestFindById {
         System.out.println("############### test per verifica esistenza dati ###########################");
         System.out.println(motociclettaDaoInstance.findById(12L));
 
-
-
         System.out.println(
                 "####################### test per verifica esistenza dati: FINE     ##################################");
         System.out.println("#####################################################################");

@@ -103,4 +103,116 @@ public class MotociclettaDAO {
         }
         return result;
     }
+    // =============================================== UPDATE
+    public int update(Motocicletta input) {
+
+        if (input == null || input.getId() < 1) {
+            return 0;
+        }
+
+        Connection c = null;
+        PreparedStatement ps = null;
+        int result = 0;
+
+        try {
+
+            c = MyConnetion.getConnection();
+            ps = c.prepareStatement("UPDATE motocicletta SET marca=?, modello=?, " + "cilindrata=?, dataimmatricolazione=? where id=?;");
+            ps.setString(1, input.getMarca());
+            ps.setString(2, input.getModello());
+            // quando si fa il setDate serve un tipo java.sql.Date
+            ps.setInt(3, input.getCilindrata());
+            ps.setDate(4, new java.sql.Date(input.getDataImmatricolazione().getTime()));
+            ps.setLong(5, input.getId());
+
+            result = ps.executeUpdate();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+            try {
+                ps.close();
+                c.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    // =============================================== DELETE
+    public int delete(Long idElementToDelete) {
+
+        if (idElementToDelete == null || idElementToDelete < 1) {
+            return 0;
+        }
+
+        Connection c = null;
+        PreparedStatement ps = null;
+        int result = 0;
+
+        try {
+
+            c = MyConnetion.getConnection();
+            ps = c.prepareStatement("DELETE from motocicletta where id=?;");
+            ps.setLong(1, idElementToDelete);
+
+            result = ps.executeUpdate();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+            try {
+                ps.close();
+                c.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    // =============================================== INSERT
+    public int insert(Motocicletta input) {
+
+        Connection c = null;
+        PreparedStatement ps = null;
+        int result = 0;
+
+        try {
+
+            c = MyConnetion.getConnection();
+            ps = c.prepareStatement(
+                    "INSERT INTO motocicletta (marca, modello, cilindrata, dataimmatricolazione) " + "VALUES (?, ?, ?,?) ");
+            ps.setString(1, input.getMarca());
+            ps.setString(2, input.getModello());
+            ps.setInt(3, input.getCilindrata());
+            ps.setDate(4, new java.sql.Date(input.getDataImmatricolazione().getTime()));
+
+            result = ps.executeUpdate();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        } finally {
+            try {
+                ps.close();
+                c.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
 }
